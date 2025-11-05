@@ -1,7 +1,4 @@
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CPUPlayer
 {
@@ -45,6 +42,19 @@ public class CPUPlayer
             if (moveScore.getValue() == maximum) {
                 bestMoves.add(moveScore.getKey());
             }
+        }
+
+        int distance  = Integer.MAX_VALUE;
+        int i = 0;
+        int centerCol;
+        int centerRow;
+        for(Move move: bestMoves){
+            centerRow = move.getEndRow() > 3 ? 4 : 3;
+            centerCol = move.getEndCol() > 3 ? 4 : 3;
+            if (Math.sqrt(Math.pow(move.getEndRow()-centerRow,2) + Math.pow(move.getEndCol()-centerCol,2)) < distance){
+                Collections.swap(bestMoves, i, 0);
+            }
+            i++;
         }
 
         return bestMoves;

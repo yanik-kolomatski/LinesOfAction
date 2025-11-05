@@ -379,6 +379,12 @@ public class Board {
         return -1;
     }
 
+    public boolean isConnected(int startRow, int startCol, int endRow, int endCol) {
+        int diffrow = absoluteValue(startRow - endRow);
+        int diffcol = absoluteValue(startCol - endCol);
+        return diffcol <= 1 &&  diffrow <= 1 && diffrow + diffcol > 0;
+    }
+
     private int absoluteValue(int num) {
         if (num < 0) {
             return (0 - num);
@@ -440,9 +446,9 @@ public class Board {
                 int col1 = position1.getCol();
                 int row2 = position2.getRow();
                 int col2 = position2.getCol();
-                int distance = getDistanceBetweenPieces(row1, col1, row2, col2);
+                boolean distance = isConnected(row1, col1, row2, col2);
 
-                if (distance == 0) {
+                if (distance) {
                     piecesChain.add(piecesPositionsList.get(j));
                     piecesPositionsList.remove(j);
                     j--;
