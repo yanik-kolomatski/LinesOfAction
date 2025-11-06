@@ -46,11 +46,9 @@ public class CPUPlayer
 
         int distance  = Integer.MAX_VALUE;
         int i = 0;
-        int centerCol;
-        int centerRow;
+        double centerCol = 3.5;
+        double centerRow = 3.5;
         for(Move move: bestMoves){
-            centerRow = move.getEndRow() > 3 ? 4 : 3;
-            centerCol = move.getEndCol() > 3 ? 4 : 3;
             if (Math.sqrt(Math.pow(move.getEndRow()-centerRow,2) + Math.pow(move.getEndCol()-centerCol,2)) < distance){
                 Collections.swap(bestMoves, i, 0);
             }
