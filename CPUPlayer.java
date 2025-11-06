@@ -49,7 +49,7 @@ public class CPUPlayer
         double centerCol = 3.5;
         double centerRow = 3.5;
         for(Move move: bestMoves){
-            if (Math.sqrt(Math.pow(move.getEndRow()-centerRow,2) + Math.pow(move.getEndCol()-centerCol,2)) < distance){
+            if (Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol) < distance){
                 Collections.swap(bestMoves, i, 0);
             }
             i++;
