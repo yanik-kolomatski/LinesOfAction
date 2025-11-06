@@ -14,6 +14,10 @@ public class CPUPlayer
         return numExploredNodes;
     }
 
+    private static int countedge = 0;
+
+    private static  int countcenter = 0;
+
     public ArrayList<Move> getNextMoveAB(Board board){
         int currentDepth = 0;
 
@@ -44,15 +48,38 @@ public class CPUPlayer
             }
         }
 
-        int distance  = Integer.MAX_VALUE;
+        double distance  = Integer.MAX_VALUE;
         int i = 0;
         double centerCol = 3.5;
         double centerRow = 3.5;
-        for(Move move: bestMoves){
-            if (Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol) < distance){
-                Collections.swap(bestMoves, i, 0);
+        int centerindex = 0;
+        if(countcenter < 10){
+
+            for(Move move: bestMoves){
+                if (Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol) < distance){
+                    centerindex = i;
+                    distance = Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol);
+                }
+                i++;
             }
-            i++;
+            Collections.swap(bestMoves, centerindex, 0);
+            countcenter++;
+        }
+
+        if(countedge < 4){
+
+            int n = countedge % 2 == 0 ? 0 : 7;
+
+            for(int j = 0; j < bestMoves.size()/2; j++){
+                Move move = bestMoves.get(j);
+                int cr = piece == Piece.RED ? move.getStartCol() : move.getStartRow();
+
+                if(cr == n){
+                    Collections.swap(bestMoves, j, 0);
+                    break;
+                }
+            }
+            countedge += 1;
         }
 
         return bestMoves;
