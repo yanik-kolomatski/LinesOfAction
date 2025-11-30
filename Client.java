@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.List;
+import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
@@ -13,10 +14,16 @@ public class Client {
         Board board = new Board();
         Piece piece = null;
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter the host name: ");
+        String host = scanner.nextLine();
+        System.out.print("Please enter the port number: ");
+        int port = scanner.nextInt();
+        Move previousMove = null;
         boolean cpu = true;
 
         try {
-            MyClient = new Socket("localhost", 8888);
+            MyClient = new Socket(host, port);
             input = new BufferedInputStream(MyClient.getInputStream());
             output = new BufferedOutputStream(MyClient.getOutputStream());
             BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
@@ -99,6 +106,12 @@ public class Client {
                         List<Move> moves = cpuPlayer.getNextMoveAB(board);
                         moveString = moves.get(0).toString();
                         Move moveClient = new Move(moveString);
+                        if (moves.size() > 1){
+                            if(moveClient.equals(previousMove)){
+                                moveClient = moves.get(1);
+                            }
+                        }
+                        previousMove = moveClient;
                         board.play(moveClient);
                     } else {
                         // Debug

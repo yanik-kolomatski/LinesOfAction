@@ -21,6 +21,8 @@ public class Move {
         this.endRow = Integer.parseInt(endRowString) - 1;
     }
 
+
+
     public Move(int startRow, int startCol, int endRow, int endCol) {
         this.startRow = startRow;
         this.startCol = startCol;
