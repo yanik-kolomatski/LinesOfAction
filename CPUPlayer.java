@@ -18,7 +18,7 @@ public class CPUPlayer
 
     private static Map<Piece[][], Integer> boardScores = new HashMap<>();
 
-    private static  int countturns = 0;
+    public static int countturns = 0;
 
     public ArrayList<Move> getNextMoveAB(Board board){
         int currentDepth = 0;
@@ -62,15 +62,14 @@ public class CPUPlayer
         int centerindex = 0;
 
 
-            for(Move move: bestMoves){
-                if (Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol) < distance){
-                    centerindex = i;
-                    distance = Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol);
-                }
-                i++;
+        for(Move move: bestMoves){
+            if (Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol) < distance){
+                centerindex = i;
+                distance = Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol);
             }
-            Collections.swap(bestMoves, centerindex, 0);
-
+            i++;
+        }
+        Collections.swap(bestMoves, centerindex, 0);
 
 
         distance  = Integer.MIN_VALUE;
@@ -84,7 +83,6 @@ public class CPUPlayer
                 }
             }
         }
-
 
         countturns++;
         return bestMoves;
@@ -107,7 +105,7 @@ public class CPUPlayer
 
         if(b == 0){
             if(countturns <= 3){
-                b += 3;
+                b += 4;
             } else if (board.getPiecesCount() > 10) {
                 b += 5;
             }else{

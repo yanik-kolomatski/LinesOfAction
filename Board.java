@@ -148,20 +148,20 @@ public class Board {
         int piecesOnFirstDiagonal = countPiecesOnFirstDiagonal(row, col);
         int piecesOnSecondDiagonal = countPiecesOnSecondDiagonal(row, col);
 
-        int rowOfPosition1OnSameColumn = row - piecesOnColumn;
-        int rowOfPosition2OnSameColumn = row + piecesOnColumn;
+        int rowOfPosition1OnSameColumn = row - piecesOnColumn;//vertical movement down
+        int rowOfPosition2OnSameColumn = row + piecesOnColumn;//vertical movement up
 
-        int columnOfPosition1OnSameRow = col - piecesOnRow;
-        int columnOfPosition2OnSameRow = col + piecesOnRow;
+        int columnOfPosition1OnSameRow = col - piecesOnRow;//horizontal movement left
+        int columnOfPosition2OnSameRow = col + piecesOnRow;//horizontal movement right
 
         int rowOfPosition1OnFirstDiagonal = row - piecesOnFirstDiagonal;
-        int columnOfPosition1OnFirstDiagonal = col - piecesOnFirstDiagonal;
+        int columnOfPosition1OnFirstDiagonal = col - piecesOnFirstDiagonal;//increasing diagonal up
         int rowOfPosition2OnFirstDiagonal = row + piecesOnFirstDiagonal;
-        int columnPosition2OnFirstDiagonal = col + piecesOnFirstDiagonal;
+        int columnPosition2OnFirstDiagonal = col + piecesOnFirstDiagonal;//inreasing diagonal down
 
-        int rowOfPosition1OnSecondDiagonal = row + piecesOnSecondDiagonal;
+        int rowOfPosition1OnSecondDiagonal = row + piecesOnSecondDiagonal;//decreasing diagonal up
         int columnOfPosition1OnSecondDiagonal = col - piecesOnSecondDiagonal;
-        int rowOfPosition2OnSecondDiagonal = row - piecesOnSecondDiagonal;
+        int rowOfPosition2OnSecondDiagonal = row - piecesOnSecondDiagonal;//decreasing diagonal down
         int columnOfPosition2OnSecondDiagonal = col + piecesOnSecondDiagonal;
 
         outerIf: if (isPositionInBoardBounds(rowOfPosition1OnSameColumn, col)
@@ -425,6 +425,36 @@ public class Board {
 
         if (blackPiecesPercentage == 100) {
             percentageDifference -= 300;
+        }
+
+
+        Position[] pieces;
+        int pCol;
+        int pRow;
+        int centerValue = 0;
+        if(piece == Piece.BLACK){
+            pieces = blackPiecesPositions2;
+        }else {
+            pieces = redPiecesPositions2;
+        }
+
+
+        for (Position position : pieces) {
+            pCol = position.getCol();
+            pRow = position.getRow();
+            centerValue += (int) (Math.abs(pCol - 3.5) + Math.abs(pRow - 3.5));
+            if(pCol == 0 || pCol == 7){
+                percentageDifference -= piece == Piece.BLACK? -10 : 10;
+            }
+            if(pRow == 0 || pRow == 7){
+                percentageDifference -= piece == Piece.BLACK? -10 : 10;
+            }
+        }
+
+        if(piece == Piece.BLACK){
+            percentageDifference += centerValue;
+        }else{
+            percentageDifference -= centerValue;
         }
 
         if (piece == Piece.BLACK) {
