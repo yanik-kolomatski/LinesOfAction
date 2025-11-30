@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 public class CPUPlayer
@@ -14,9 +16,9 @@ public class CPUPlayer
         return numExploredNodes;
     }
 
-    private static int countedge = 0;
+    private static Map<Piece[][], Integer> boardScores = new HashMap<>();
 
-    private static  int countcenter = 0;
+    private static  int countturns = 0;
 
     public ArrayList<Move> getNextMoveAB(Board board){
         int currentDepth = 0;
@@ -29,12 +31,17 @@ public class CPUPlayer
         List<Map.Entry<Move, Integer>> moveScoreList = new ArrayList<>();
 
         int maximum = Integer.MIN_VALUE;
-
+        Instant start = Instant.now();
         for (Move move: possibleMovesCPU) {
+
+            /*if(Duration.between(start, Instant.now()).toMillis() > 4900){
+                break;
+            }*/
+
             Board newBoard = new Board(board);
             newBoard.play(move);
 
-            int score = getMoveScoreAB(newBoard, false, alpha, beta, currentDepth + 1);
+            int score = getMoveScoreAB(newBoard, false, alpha, beta, currentDepth + 1, 0, start);
             moveScoreList.add(new AbstractMap.SimpleEntry<>(move, score));
 
             if (score > maximum) {
@@ -53,7 +60,7 @@ public class CPUPlayer
         double centerCol = 3.5;
         double centerRow = 3.5;
         int centerindex = 0;
-        if(countcenter < 10){
+
 
             for(Move move: bestMoves){
                 if (Math.abs(move.getEndRow()-centerRow) + Math.abs(move.getEndCol()-centerCol) < distance){
@@ -63,38 +70,57 @@ public class CPUPlayer
                 i++;
             }
             Collections.swap(bestMoves, centerindex, 0);
-            countcenter++;
-        }
 
-        if(countedge < 4){
 
-            int n = countedge % 2 == 0 ? 0 : 7;
 
+        distance  = Integer.MIN_VALUE;
+
+        if(countturns < 4){
             for(int j = 0; j < bestMoves.size()/2; j++){
                 Move move = bestMoves.get(j);
-                int cr = piece == Piece.RED ? move.getStartCol() : move.getStartRow();
 
-                if(cr == n){
+                if( Math.abs(move.getEndRow()-move.getStartRow()) + Math.abs(move.getEndCol()-move.getStartRow()) > distance){
                     Collections.swap(bestMoves, j, 0);
-                    break;
                 }
             }
-            countedge += 1;
         }
 
+
+        countturns++;
         return bestMoves;
     }
 
-    private int getMoveScoreAB(Board board, boolean isCpuTurn, int alpha, int beta, int currentDepth) {
+    private int getMoveScoreAB(Board board, boolean isCpuTurn, int alpha, int beta, int currentDepth, int b, Instant start) {
         this.numExploredNodes++;
+        /*Integer evaluateValue = boardScores.get(board.getBoard());
 
+        if(evaluateValue == null){
+            evaluateValue = board.evaluate(piece);
+            boardScores.put(board.getBoard(), evaluateValue);
+        }*/
         int evaluateValue = board.evaluate(piece);
 
         if (evaluateValue > 200 || evaluateValue < -200) {
             return evaluateValue;
         }
 
-        if (currentDepth == 5) {
+
+        if(b == 0){
+            if(countturns <= 3){
+                b += 3;
+            } else if (board.getPiecesCount() > 10) {
+                b += 5;
+            }else{
+                b += 6;
+            }
+        }
+
+        /*if(Duration.between(start, Instant.now()).toMillis() > 4900){
+            return evaluateValue;
+        }*/
+
+
+        if (currentDepth == b) {
             return evaluateValue;
         }
 
@@ -111,7 +137,7 @@ public class CPUPlayer
                 Board newBoard = new Board(board);
                 newBoard.play(move);
 
-                score = getMoveScoreAB(newBoard, !isCpuTurn, alpha, beta, currentDepth + 1);
+                score = getMoveScoreAB(newBoard, !isCpuTurn, alpha, beta, currentDepth + 1, b, start);
 
                 if (score > maximum) {
                     maximum = score;
@@ -133,7 +159,7 @@ public class CPUPlayer
                 Board newBoard = new Board(board);
                 newBoard.play(move);
 
-                score = getMoveScoreAB(newBoard, !isCpuTurn, alpha, beta, currentDepth + 1);
+                score = getMoveScoreAB(newBoard, !isCpuTurn, alpha, beta, currentDepth + 1, b, start);
 
                 if (score < minimum) {
                     minimum = score;

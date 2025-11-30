@@ -36,6 +36,18 @@ public class Board {
         }
     }
 
+    public int getPiecesCount(Piece piece) {
+        return piece == Piece.RED ? redPiecesCount : blackPiecesCount;
+    }
+
+    public int getPiecesCount() {
+        return redPiecesCount + blackPiecesCount;
+    }
+
+    public Piece[][] getBoard() {
+        return board;
+    }
+
     public void play(Move move) {
         Position startPosition = new Position(move.getStartRow(), move.getStartCol());
         Position endPosition = new Position(move.getEndRow(), move.getEndCol());
