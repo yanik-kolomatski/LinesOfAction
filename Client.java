@@ -13,12 +13,24 @@ public class Client {
         BufferedOutputStream output;
         Board board = new Board();
         Piece piece = null;
+        String host;
+        int port ;
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.print("Please enter the host name: ");
+        if(args.length > 0){
+            host = args[0];
+            if (args.length > 1) {
+                port = Integer.parseInt(args[1]);
+            }else{
+                port = 8888;
+            }
+        }else{
+            host = "localhost";
+            port = 8888;
+        }
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the host name: ");
-        String host = scanner.nextLine();
-        System.out.print("Please enter the port number: ");
-        int port = scanner.nextInt();
+        //System.out.print("Please enter the port number: ");
+
         Move previousMove = null;
         boolean cpu = true;
 
