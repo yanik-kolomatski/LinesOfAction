@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Board {
+public class Board{
     private Piece[][] board;
 
     private int redPiecesCount = 0;
@@ -16,6 +16,30 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             Arrays.fill(board[i], Piece.EMPTY);
         }
+    }
+
+    public int getBlackPiecesCount() {
+        return blackPiecesCount;
+    }
+    public int getRedPiecesCount() {
+        return redPiecesCount;
+    }
+
+    public Position[] getBlackPiecesPositions() {
+        return blackPiecesPositions;
+    }
+
+    public Position[] getRedPiecesPositions() {
+        return redPiecesPositions;
+    }
+
+    public Board(Board board, int n) {
+        this.board = new Piece[8][8];
+        this.board = board.getBoard();
+        this.redPiecesCount = board.getRedPiecesCount();
+        this.blackPiecesCount = board.getBlackPiecesCount();
+        this.redPiecesPositions = board.getRedPiecesPositions();
+        this.blackPiecesPositions = board.getBlackPiecesPositions();
     }
 
     public Board(Board otherBoard) {
@@ -438,19 +462,19 @@ public class Board {
             pieces = redPiecesPositions2;
         }
 
-
-        for (Position position : pieces) {
-            pCol = position.getCol();
-            pRow = position.getRow();
-            centerValue += (int) (Math.abs(pCol - 3.5) + Math.abs(pRow - 3.5));
-            if(pCol == 0 || pCol == 7){
-                percentageDifference -= piece == Piece.BLACK? -10 : 10;
-            }
-            if(pRow == 0 || pRow == 7){
-                percentageDifference -= piece == Piece.BLACK? -10 : 10;
+        if(CPUPlayer.countturns <= 10) {
+            for (Position position : pieces) {
+                pCol = position.getCol();
+                pRow = position.getRow();
+                centerValue += (int) (Math.abs(pCol - 3.5) + Math.abs(pRow - 3.5));
+                if (pCol == 0 || pCol == 7) {
+                    percentageDifference -= piece == Piece.BLACK ? -10 : 10;
+                }
+                if (pRow == 0 || pRow == 7) {
+                    percentageDifference -= piece == Piece.BLACK ? -10 : 10;
+                }
             }
         }
-
         if(piece == Piece.BLACK){
             percentageDifference += centerValue;
         }else{
@@ -594,4 +618,5 @@ public class Board {
         boardString.append("  H   ");
         return boardString.toString();
     }
+
 }

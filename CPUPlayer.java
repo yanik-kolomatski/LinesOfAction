@@ -104,7 +104,7 @@ public class CPUPlayer
 
 
         if(b == 0){
-            if(countturns <= 3){
+            if(countturns <= 5){
                 b += 4;
             } else if (board.getPiecesCount() > 10) {
                 b += 5;
@@ -123,13 +123,16 @@ public class CPUPlayer
         }
 
         Piece otherPlayerPiece = this.piece == Piece.RED ? Piece.BLACK : Piece.RED;
-
+        //Board newBoard = new Board(board);
         int score = 0;
+
 
         if (isCpuTurn) {
             List<Move> possibleMovesCPU = board.getPossibleMoves(board, this.piece);
 
             int maximum = Integer.MIN_VALUE;
+
+
 
             for (Move move: possibleMovesCPU) {
                 Board newBoard = new Board(board);
@@ -153,6 +156,7 @@ public class CPUPlayer
 
             int minimum = Integer.MAX_VALUE;
 
+
             for (Move move: possibleMovesOtherPlayer) {
                 Board newBoard = new Board(board);
                 newBoard.play(move);
@@ -167,6 +171,7 @@ public class CPUPlayer
                         break;
                     }
                 }
+
             }
 
             return minimum;
