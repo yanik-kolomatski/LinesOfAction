@@ -34,9 +34,9 @@ public class CPUPlayer
         Instant start = Instant.now();
         for (Move move: possibleMovesCPU) {
 
-            /*if(Duration.between(start, Instant.now()).toMillis() > 4900){
+            if(Duration.between(start, Instant.now()).toMillis() > 4900){
                 break;
-            }*/
+            }
 
             Board newBoard = new Board(board);
             newBoard.play(move);
@@ -74,7 +74,7 @@ public class CPUPlayer
 
         distance  = Integer.MIN_VALUE;
 
-        /*if(countturns < 4){
+        if(countturns < 4){
             for(int j = 0; j < bestMoves.size()/2; j++){
                 Move move = bestMoves.get(j);
 
@@ -82,7 +82,7 @@ public class CPUPlayer
                     Collections.swap(bestMoves, j, 0);
                 }
             }
-        }*/
+        }
 
         countturns++;
         return bestMoves;
@@ -113,9 +113,9 @@ public class CPUPlayer
             }
         }
 
-        /*if(Duration.between(start, Instant.now()).toMillis() > 4900){
+        if(Duration.between(start, Instant.now()).toMillis() > 4900){
             return evaluateValue;
-        }*/
+        }
 
 
         if (currentDepth == b) {
