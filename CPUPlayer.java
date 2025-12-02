@@ -74,7 +74,7 @@ public class CPUPlayer
 
         distance  = Integer.MIN_VALUE;
 
-        if(countturns < 4){
+        /*if(countturns < 4){
             for(int j = 0; j < bestMoves.size()/2; j++){
                 Move move = bestMoves.get(j);
 
@@ -82,7 +82,7 @@ public class CPUPlayer
                     Collections.swap(bestMoves, j, 0);
                 }
             }
-        }
+        }*/
 
         countturns++;
         return bestMoves;
