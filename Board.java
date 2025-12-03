@@ -462,7 +462,7 @@ public class Board{
             pieces = redPiecesPositions2;
         }
 
-        if (CPUPlayer.countturns <= 12){
+        if (CPUPlayer.countturns <= 20){
             for (Position position : pieces) {
                 pCol = position.getCol();
                 pRow = position.getRow();

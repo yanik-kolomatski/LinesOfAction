@@ -34,7 +34,7 @@ public class CPUPlayer
         Instant start = Instant.now();
         for (Move move: possibleMovesCPU) {
 
-            if(Duration.between(start, Instant.now()).toMillis() > 4900){
+            if(Duration.between(start, Instant.now()).toMillis() > 4980){
                 System.out.println("TIMED OUT");
                 break;
             }
@@ -117,7 +117,7 @@ public class CPUPlayer
             }
         }
 
-        if(Duration.between(start, Instant.now()).toMillis() > 4900){
+        if(Duration.between(start, Instant.now()).toMillis() > 4980){
 
             System.out.println("TIMED OUT");
             return evaluateValue;
