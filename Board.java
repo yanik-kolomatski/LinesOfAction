@@ -456,13 +456,13 @@ public class Board{
         int pCol;
         int pRow;
         int centerValue = 0;
-        if(piece == Piece.BLACK){
+        if (piece == Piece.BLACK) {
             pieces = blackPiecesPositions2;
-        }else {
+        } else {
             pieces = redPiecesPositions2;
         }
 
-        if(CPUPlayer.countturns <= 10) {
+        if (CPUPlayer.countturns <= 12){
             for (Position position : pieces) {
                 pCol = position.getCol();
                 pRow = position.getRow();
@@ -475,6 +475,7 @@ public class Board{
                 }
             }
         }
+
         if(piece == Piece.BLACK){
             percentageDifference += centerValue;
         }else{

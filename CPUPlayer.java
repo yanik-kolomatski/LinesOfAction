@@ -35,6 +35,7 @@ public class CPUPlayer
         for (Move move: possibleMovesCPU) {
 
             if(Duration.between(start, Instant.now()).toMillis() > 4900){
+                System.out.println("TIMED OUT");
                 break;
             }
 
@@ -86,7 +87,7 @@ public class CPUPlayer
 
         Instant finish = Instant.now();
         System.out.println("Time elapsed: " + Duration.between(start, finish).toMillis());
-
+        System.out.println("number of best moves : " + bestMoves.size());
         countturns++;
         return bestMoves;
     }
@@ -108,18 +109,19 @@ public class CPUPlayer
 
         if(b == 0){
             if(countturns <= 5){
-                b += 4;
-            } else if (board.getPiecesCount() > 10) {
                 b += 5;
-            }else{
+            } else if (Duration.between(start, Instant.now()).toMillis() < 2500) {
                 b += 6;
+            }else{
+                b += 5;
             }
         }
 
         if(Duration.between(start, Instant.now()).toMillis() > 4900){
+
+            System.out.println("TIMED OUT");
             return evaluateValue;
         }
-
 
         if (currentDepth == b) {
             return evaluateValue;
