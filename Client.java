@@ -15,8 +15,7 @@ public class Client {
         Piece piece = null;
         String host;
         int port ;
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.print("Please enter the host name: ");
+
         if(args.length > 0){
             host = args[0];
             if (args.length > 1) {
@@ -29,7 +28,7 @@ public class Client {
             port = 8888;
         }
 
-        //System.out.print("Please enter the port number: ");
+
 
         Move previousMove = null;
         boolean cpu = true;

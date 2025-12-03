@@ -84,6 +84,9 @@ public class CPUPlayer
             }
         }
 
+        Instant finish = Instant.now();
+        System.out.println("Time elapsed: " + Duration.between(start, finish).toMillis());
+
         countturns++;
         return bestMoves;
     }
