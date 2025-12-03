@@ -118,8 +118,7 @@ public class CPUPlayer
         }
 
         if(Duration.between(start, Instant.now()).toMillis() > 4980){
-
-            System.out.println("TIMED OUT");
+            //System.out.println("TIMED OUT");
             return evaluateValue;
         }
 
